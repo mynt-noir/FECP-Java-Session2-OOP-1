@@ -7,13 +7,118 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-//    Deposit: Adds to balance (with error check)
-//    Withdraw: Subtracts from balance (with error check)
-//    Display Information:Prints account info
-//    Get Account Number: Returns account number (used for searching)
+    private static void createAccount(ArrayList<BankAccount> accounts, int accountNumber, String accountName, String answer) {
+        answer = answer.toLowerCase();
 
-    private static void createAccount(ArrayList<BankAccount> accounts, int accountNumber, String accountName) {
+        if (isValidAccountNumber(accounts, accountNumber)) {
+            if (isValidAnswer(answer)) {
+                if (answer.equals("yes")) {
+                    System.out.println("Enter initial deposit amount: ");
+                    Scanner scanner = new Scanner(System.in);
+                    double depositAmount = scanner.nextInt();
+                    if (isValidDeposit(depositAmount)) {
+                        accounts.add(new BankAccount(accountNumber, accountName, depositAmount));
+                    }
+                } else {
+                    accounts.add(new BankAccount(accountNumber, accountName, 0));
+                }
+                System.out.println("Account Created Successfully!");
+            }
+        };
 
+    }
+
+    private static void viewAllAccounts(ArrayList<BankAccount> accounts) {
+        if (accounts.isEmpty()) {
+            System.out.println("No accounts to display.");
+            return;
+        }
+        for (BankAccount account : accounts) {
+            account.displayInfo();
+            System.out.println(account);
+        }
+    }
+
+    private static void checkBalance(ArrayList<BankAccount> accounts, int accountNumber) {
+        for (BankAccount account : accounts) {
+            if (accountNumber == account.getAccountNumber()) {
+                account.displayInfo();
+                return;
+            }
+        }
+        System.out.println("Invalid account number. Please input a valid account number.");
+    }
+
+    private static void deposit(ArrayList<BankAccount> accounts, int accountNumber, double depositAmount) {
+        for (BankAccount account : accounts) {
+            if (accountNumber == account.getAccountNumber()) {
+                if (isValidDeposit(depositAmount)) {
+                    double newBalance = account.getAccountBalance() + depositAmount;
+                    account.setAccountBalance(newBalance);
+                    System.out.println("Deposited Successfully!");
+                    System.out.printf("Your new balance is %.2f", newBalance);
+
+                }
+                return;
+            }
+        }
+        System.out.println("Invalid account number. Please input a valid account number.");
+    }
+
+    private static void withdraw(ArrayList<BankAccount> accounts, int accountNumber, double withdrawAmount) {
+        for (BankAccount account : accounts) {
+            if (accountNumber == account.getAccountNumber()) {
+                if (isValidWithdraw(account.getAccountBalance(), withdrawAmount)) {
+                    double newBalance = account.getAccountBalance() - withdrawAmount;
+                    account.setAccountBalance(newBalance);
+                    System.out.println("Withdrawn Successfully!");
+                    System.out.printf("Your new balance is %.2f", newBalance);
+
+                }
+                return;
+            }
+        }
+        System.out.println("Invalid account number. Please input a valid account number.");
+    }
+
+        public static boolean isValidAnswer(String answer) {
+        if (answer.equals("yes") || answer.equals("no")) {
+            return true;
+        };
+        System.out.println("Invalid answer. Please answer either yes/no.");
+        return false;
+    }
+
+    public static boolean isValidDeposit(double depositAmount) {
+        if (depositAmount >= 0) {
+            return true;
+        };
+        System.out.println("Invalid deposit. Please deposit a non-negative amount.");
+        return false;
+    }
+
+    public static boolean isValidWithdraw(double balance, double withdrawAmount) {
+        if (withdrawAmount <= balance && withdrawAmount >= 0) {
+            return true;
+        };
+        System.out.println("Invalid withdrawal. Please deposit a non-negative amount less than or equal to your balance.");
+        return false;
+    }
+
+    public static boolean isValidAccountNumber(ArrayList<BankAccount> accounts, int accountNumber) {
+        // check for duplicates
+        for (BankAccount account : accounts) {
+            if (accountNumber == account.getAccountNumber()) {
+                System.out.println("Account number taken. Please input a unique account number.");
+                return false;
+            }
+        };
+        // check for invalid
+        if (accountNumber >= 1) {
+            return true;
+        };
+        System.out.println("Invalid account number. Please input an account number greater than 0.");
+        return false;
     }
 
     public static void main(String[] args) {
@@ -28,25 +133,49 @@ public class Main {
         System.out.println("6. Exit");
 
         int choice;
-        System.out.print("Enter choice: ");
-        choice = scanner.nextInt();
+
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
         do {
+            System.out.print("Enter choice (1-5): ");
+            choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> {
                     // create account
+
+                    System.out.print("Enter Account Number: ");
+                    int accountNumber = scanner.nextInt();
+                    System.out.print("Enter Holder Name: ");
+                    String accountName = scanner.next();
+                    System.out.print("Initial Deposit (yes/no): ");
+                    String answer = scanner.next();
+                    createAccount(accounts, accountNumber, accountName, answer);
+
                 }
                 case 2 -> {
-                    // view all accounts
+                    viewAllAccounts(accounts);
                 }
                 case 3 -> {
                     // check balance
+                    System.out.print("Enter Account Number: ");
+                    int accountNumber = scanner.nextInt();
+                    checkBalance(accounts, accountNumber);
+
                 }
                 case 4 -> {
                     // deposit
+                    System.out.print("Enter Account Number: ");
+                    int accountNumber = scanner.nextInt();
+                    System.out.print("Enter Deposit Amount: ");
+                    double depositAmount = scanner.nextDouble();
+                    deposit(accounts, accountNumber, depositAmount);
                 }
                 case 5 -> {
+                    System.out.print("Enter Account Number: ");
+                    int accountNumber = scanner.nextInt();
+                    System.out.print("Enter Withdrawal Amount: ");
+                    double withdrawAmount = scanner.nextDouble();
+                    withdraw(accounts, accountNumber, withdrawAmount);
                     // withdraw
                 }
                 default -> {
