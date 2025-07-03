@@ -3,7 +3,7 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class BankSystem {
 
     private static void createAccount(ArrayList<BankAccount> accounts, int accountNumber, String accountName, String answer) {
         answer = answer.toLowerCase();
