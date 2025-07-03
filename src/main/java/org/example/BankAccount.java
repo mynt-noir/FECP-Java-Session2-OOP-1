@@ -45,7 +45,5 @@ public class BankAccount {
         System.out.printf("Account Number: %d\n", accountNumber);
         System.out.printf("Account Name: %s\n", accountName);
         System.out.printf("Account Balance: %.2f\n", accountBalance);
-        System.out.println("--- End of Account List ---");
-
     }
 }

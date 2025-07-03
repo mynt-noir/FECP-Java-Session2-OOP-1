@@ -13,7 +13,7 @@ public class Main {
         if (isValidAccountNumber(accounts, accountNumber)) {
             if (isValidAnswer(answer)) {
                 if (answer.equals("yes")) {
-                    System.out.println("Enter initial deposit amount: ");
+                    System.out.print("Enter initial deposit amount: ");
                     Scanner scanner = new Scanner(System.in);
                     double depositAmount = scanner.nextInt();
                     if (isValidDeposit(depositAmount)) {
@@ -25,7 +25,6 @@ public class Main {
                 System.out.println("Account Created Successfully!");
             }
         };
-
     }
 
     private static void viewAllAccounts(ArrayList<BankAccount> accounts) {
@@ -35,8 +34,9 @@ public class Main {
         }
         for (BankAccount account : accounts) {
             account.displayInfo();
-            System.out.println(account);
         }
+        System.out.println("--- End of Account List ---");
+
     }
 
     private static void checkBalance(ArrayList<BankAccount> accounts, int accountNumber) {
@@ -56,7 +56,7 @@ public class Main {
                     double newBalance = account.getAccountBalance() + depositAmount;
                     account.setAccountBalance(newBalance);
                     System.out.println("Deposited Successfully!");
-                    System.out.printf("Your new balance is %.2f", newBalance);
+                    System.out.printf("Your new balance is %.2f.\n", newBalance);
 
                 }
                 return;
@@ -72,7 +72,7 @@ public class Main {
                     double newBalance = account.getAccountBalance() - withdrawAmount;
                     account.setAccountBalance(newBalance);
                     System.out.println("Withdrawn Successfully!");
-                    System.out.printf("Your new balance is %.2f", newBalance);
+                    System.out.printf("Your new balance is %.2f.\n", newBalance);
 
                 }
                 return;
@@ -137,6 +137,8 @@ public class Main {
         ArrayList<BankAccount> accounts = new ArrayList<>();
 
         do {
+
+//            System.out.println("Would you like to retur");
             System.out.print("Enter choice (1-5): ");
             choice = scanner.nextInt();
             switch (choice) {
