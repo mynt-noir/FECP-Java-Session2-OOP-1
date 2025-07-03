@@ -123,69 +123,78 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("=== Bank Menu ===");
-        System.out.println("1. Create Account");
-        System.out.println("2. View All Accounts");
-        System.out.println("3. Check Balance");
-        System.out.println("4. Deposit");
-        System.out.println("5. Withdraw");
-        System.out.println("6. Exit");
-
         int choice;
-
+        boolean isFirst = true;
         ArrayList<BankAccount> accounts = new ArrayList<>();
+
 
         do {
 
-//            System.out.println("Would you like to retur");
-            System.out.print("Enter choice (1-5): ");
-            choice = scanner.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    // create account
+            if (!isFirst) {
+                System.out.print("Would you like to return to the menu? (yes/no): ");
+                String returnAnswer = scanner.next().toLowerCase();
 
-                    System.out.print("Enter Account Number: ");
-                    int accountNumber = scanner.nextInt();
-                    System.out.print("Enter Holder Name: ");
-                    String accountName = scanner.next();
-                    System.out.print("Initial Deposit (yes/no): ");
-                    String answer = scanner.next();
-                    createAccount(accounts, accountNumber, accountName, answer);
-
-                }
-                case 2 -> {
-                    viewAllAccounts(accounts);
-                }
-                case 3 -> {
-                    // check balance
-                    System.out.print("Enter Account Number: ");
-                    int accountNumber = scanner.nextInt();
-                    checkBalance(accounts, accountNumber);
-
-                }
-                case 4 -> {
-                    // deposit
-                    System.out.print("Enter Account Number: ");
-                    int accountNumber = scanner.nextInt();
-                    System.out.print("Enter Deposit Amount: ");
-                    double depositAmount = scanner.nextDouble();
-                    deposit(accounts, accountNumber, depositAmount);
-                }
-                case 5 -> {
-                    System.out.print("Enter Account Number: ");
-                    int accountNumber = scanner.nextInt();
-                    System.out.print("Enter Withdrawal Amount: ");
-                    double withdrawAmount = scanner.nextDouble();
-                    withdraw(accounts, accountNumber, withdrawAmount);
-                    // withdraw
-                }
-                default -> {
-                    // exit
+                if (!returnAnswer.equals("yes")) {
                     System.out.println("---Thank you!---");
                     return;
                 }
             }
+                System.out.println("=== Bank Menu ===");
+                System.out.println("1. Create Account");
+                System.out.println("2. View All Accounts");
+                System.out.println("3. Check Balance");
+                System.out.println("4. Deposit");
+                System.out.println("5. Withdraw");
+                System.out.println("6. Exit");
+
+                System.out.print("Enter choice (1-5): ");
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1 -> {
+                        // create account
+
+                        System.out.print("Enter Account Number: ");
+                        int accountNumber = scanner.nextInt();
+                        System.out.print("Enter Holder Name: ");
+                        String accountName = scanner.next();
+                        System.out.print("Initial Deposit (yes/no): ");
+                        String answer = scanner.next();
+                        createAccount(accounts, accountNumber, accountName, answer);
+
+                    }
+                    case 2 -> {
+                        viewAllAccounts(accounts);
+                    }
+                    case 3 -> {
+                        // check balance
+                        System.out.print("Enter Account Number: ");
+                        int accountNumber = scanner.nextInt();
+                        checkBalance(accounts, accountNumber);
+
+                    }
+                    case 4 -> {
+                        // deposit
+                        System.out.print("Enter Account Number: ");
+                        int accountNumber = scanner.nextInt();
+                        System.out.print("Enter Deposit Amount: ");
+                        double depositAmount = scanner.nextDouble();
+                        deposit(accounts, accountNumber, depositAmount);
+                    }
+                    case 5 -> {
+                        System.out.print("Enter Account Number: ");
+                        int accountNumber = scanner.nextInt();
+                        System.out.print("Enter Withdrawal Amount: ");
+                        double withdrawAmount = scanner.nextDouble();
+                        withdraw(accounts, accountNumber, withdrawAmount);
+                        // withdraw
+                    }
+                    default -> {
+                        // exit
+                        System.out.println("---Thank you!---");
+                        return;
+                    }
+                }
+                isFirst = false;
         } while (choice != 6);
 
     }
